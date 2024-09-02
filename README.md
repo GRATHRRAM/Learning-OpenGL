@@ -1,7 +1,6 @@
 # To build 
-mkdir build
-cp ./shaders ./build -r
-cd build 
-cmake ..
-make
-./swar
+mkdir build </br>
+cp ./shaders ./build -r </br>
+cd build  </br>
+cmake .. </br>
+make </br>

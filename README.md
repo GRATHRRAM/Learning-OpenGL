@@ -1,2 +1,7 @@
-# SpaceWar
-Simple Game Made Using OpenGl (GLFW &amp; GLEW)
+# To build 
+mkdir build
+cp ./shaders ./build -r
+cd build 
+cmake ..
+make
+./swar

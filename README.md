@@ -1,6 +1,2 @@
-# To build 
-mkdir build </br>
-cp ./shaders ./build -r </br>
-cd build  </br>
-cmake .. </br>
-make </br>
+# SpaceWar
+Simple Game Made Using OpenGl (GLFW &amp; GLEW)

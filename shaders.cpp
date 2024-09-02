@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
+#include <iostream>
 #include "shaders.hpp"
 
 unsigned int shaders::CompileShader(unsigned int type, const std::string* source) {
@@ -39,4 +41,23 @@ unsigned int shaders::CreateShader(const std::string* VertexShader, const std::s
     glDeleteShader(fs);
 
     return program;
+}
+
+std::string shaders::LoadShader(const std::string path) {
+    std::string buff = "";
+
+    std::fstream file(path, std::ios::in);
+
+    if (!file.is_open()) {
+        std::cout << "Failed to Load Shader: " << path << "\n";
+        return "err";
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        buff += line + '\n';
+    }
+
+    file.close();
+    return buff;
 }

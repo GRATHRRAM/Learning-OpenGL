@@ -9,7 +9,7 @@ int main(void) {
 
     if(!glfwInit()) return -1;
 
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "SpaceWar", NULL, NULL);
     
     if(!window) {
         glfwTerminate();
@@ -19,7 +19,7 @@ int main(void) {
     glfwMakeContextCurrent(window);
     if (glewInit() != GLEW_OK) return -2;
 
-    std::cout << "OpenGL -> Version: " << glGetString(GL_VERSION) << "\n";
+    std::cout << "OpenGL -> Version: " << glGetString(GL_VERSION) << "\n\n";
 
     float vertex[6] = {
         -0.5f, -0.5f,
@@ -35,25 +35,10 @@ int main(void) {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
-    std::string vertexshader = 
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) in vec4 position;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = position;\n"
-        "}\n";
+    std::string vertexshader = shaders::LoadShader("./shaders/vertex.glsl");
+    std::string fragmentshader = shaders::LoadShader("./shaders/fragment.glsl");
 
-    std::string fragmentshader =
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) out vec4 color;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   color = vec4(0.0,0.0,0.5,1.0);\n"
-        "}\n";
+    if(vertexshader == "err" || fragmentshader == "err") return -3;
 
     unsigned int shader = shaders::CreateShader(&vertexshader, &fragmentshader);
     glUseProgram(shader);

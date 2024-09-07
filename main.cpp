@@ -4,21 +4,11 @@
 #include <iostream>
 #include <time.h>
 #include <cstdlib>
+
 #include "shaders.hpp"
-
-inline float randfloat() {
-    return (rand() % 65535) / 65535.f;
-}
-
-void glClearErrors() {
-    while(glGetError() != GL_NO_ERROR);
-}
-
-void glPrintErrors() {
-    while(GLenum error = glGetError()) {
-        std::cout << "OpenGL -> Error -> { " << error << "}\n";
-    }
-}
+#include "renderer.hpp"
+#include "vertexbuffer.hpp"
+#include "indexbuffer.hpp"
 
 int main(void) {
     srand(time(0));
@@ -54,19 +44,13 @@ int main(void) {
         2,3,0
     };
 
-    unsigned int buff = 0;
-    glGenBuffers(1, &buff);
-    glBindBuffer(GL_ARRAY_BUFFER, buff); 
-    glBufferData(GL_ARRAY_BUFFER, CountOfVertex * sizeof(float), vertex, GL_STATIC_DRAW);
+    VertexBuffer vb(vertex, CountOfVertex * sizeof(float));
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
     
-    unsigned int ibo = 0;
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, CountOfVertex * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+    IndexBuffer ib(indices, CountOfVertex / 2);
 
     std::string vertexshader = shaders::LoadShader("./shaders/vertex.glsl");
     std::string fragmentshader = shaders::LoadShader("./shaders/fragment.glsl");
@@ -102,13 +86,13 @@ int main(void) {
         if(color[2] < 0.f) inc = true;
 
         if(inc) {
-            color[0] += randfloat() * 0.01f;
-            color[1] += randfloat() * 0.01f;
-            color[2] += randfloat() * 0.01f;
+            color[0] += rr::Randfloat() * 0.01f;
+            color[1] += rr::Randfloat() * 0.01f;
+            color[2] += rr::Randfloat() * 0.01f;
         } else {
-            color[0] -= randfloat() * 0.01f;
-            color[1] -= randfloat() * 0.01f;
-            color[2] -= randfloat() * 0.01f;
+            color[0] -= rr::Randfloat() * 0.01f;
+            color[1] -= rr::Randfloat() * 0.01f;
+            color[2] -= rr::Randfloat() * 0.01f;
         }
         glfwSwapBuffers(window);
         glfwPollEvents();

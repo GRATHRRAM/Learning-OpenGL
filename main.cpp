@@ -44,13 +44,13 @@ int main(void) {
         2,3,0
     };
 
-    VertexBuffer vb(vertex, CountOfVertex * sizeof(float));
+    VertexBuffer *vb = new VertexBuffer(vertex, CountOfVertex * sizeof(float));
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
     
-    IndexBuffer ib(indices, CountOfVertex / 2);
+    IndexBuffer *ib = new IndexBuffer(indices, CountOfVertex / 2);
 
     std::string vertexshader = shaders::LoadShader("./shaders/vertex.glsl");
     std::string fragmentshader = shaders::LoadShader("./shaders/fragment.glsl");
@@ -98,6 +98,9 @@ int main(void) {
         glfwPollEvents();
 
     }
+
+    delete vb;
+    delete ib;
 
     glDeleteProgram(shader);
     glfwTerminate();

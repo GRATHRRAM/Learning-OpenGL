@@ -9,6 +9,9 @@ add_compile_options(-Wall -Wextra -O2)
 set(sources
     main.cpp
     shaders.cpp
+    vertexbuffer.cpp
+    indexbuffer.cpp
+    renderer.cpp
     ./GLEW/glew.c
 )
 
